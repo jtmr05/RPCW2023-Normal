@@ -1,3 +1,7 @@
+Antes de correr cada uma das aplicações, é preciso executar
+    $ npm i
+na respetiva diretoria, por forma a instalar as dependências necessárias.
+
 1.1
     O dataset já se encontra na forma de um array de documentos, pelo que pode ser 
     importado diretamente para o Mongo usando:
