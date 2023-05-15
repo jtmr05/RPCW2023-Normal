@@ -1,5 +1,25 @@
-1.1. db.contracts.find().size() -- 17943 
-1.2. db.contracts.find({NomeInstituicao: "Universidade do Minho"}).size() -- 166 
-1.3. db.contracts.distinct('AreaCNAEF')
-1.4. db.contracts.aggregate([{$group: {_id: {$substr: ["$DataInicioContrato", 6, -1]}, contratos: {$addToSet: "$_id"}}}])
-1.5. db.contracts.aggregate([{$group: {_id: "$NomeInstituicao", contratos: {$addToSet: "$_id"}}}])
+1.1
+    O dataset já se encontra na forma de um array de documentos, pelo que pode ser 
+    importado diretamente para o Mongo usando:
+        $ mongoimport -d scienceJobs -c contracts --file emprego-cientifico.json --jsonArray
+    No entanto, os documentos não possuem o campo '_id'. Isto não é um problema para o Mongo
+    mas poderá não ser conveniente para os próximos exercícios. Como tal, acrescentei
+    esse campo (com ajuda de uma macro do Vim), com a forma /c\d+/ 
+    (em notação de expressão regular).
+
+1.2. 
+    1. db.contracts.find().size() -- 17943 
+    2. db.contracts.find({NomeInstituicao: "Universidade do Minho"}).size() -- 166 
+    3. db.contracts.distinct('AreaCNAEF')
+    4. db.contracts.aggregate([{$group: {_id: {$substr: ["$DataInicioContrato", 6, -1]}, contratos: {$addToSet: "$_id"}}}])
+    5. db.contracts.aggregate([{$group: {_id: "$NomeInstituicao", contratos: {$addToSet: "$_id"}}}])
+
+    Para a alínea 4, foi considerada a data de início do contrato.
+    Na 5, seria igualmente válido usar o campo NIPCInstituicao em vez do NomeInstituicao.
+
+1.3. 
+    Comecei por eliminar as pastas public e views, e criar as pastas models e controllers.
+    Temos apenas um coleção, portanto usei um único controlador e um único model (contract.js).
+
+    As rotas /contracts?year=YYYY e /contracts?inst=AAA são tratadas na rota /contracts, 
+    verificando se existe query string ou não (if(req.query...)).
